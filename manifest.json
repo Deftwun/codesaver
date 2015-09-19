@@ -1,0 +1,16 @@
+{
+  "name": "Code Saver",
+  "description": "Save your code snippets across devices using Google cloud storage!",
+  "version": "0.1",
+  "manifest_version": 2,
+  "permissions":[
+		"storage",
+		"alwaysOnTopWindows"
+  ],
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "icons": { "16": "assets/codesaver-16.png", "128": "assets/codesaver-128.png" }
+}

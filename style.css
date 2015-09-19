@@ -1,0 +1,209 @@
+@font-face { font-family: 'Open Sans'; src: url('font/OpenSans-Regular.ttf'); } 
+@font-face { font-family: 'Open Sans'; font-weight: bold; src: url('font/OpenSans-Bold.ttf');}
+@font-face { font-family: 'Open Sans'; font-style: italic; src: url('font/OpenSans-Italic.ttf');}
+
+
+html, body, #container{
+  height:100%;
+  margin:0;
+  font-family: 'Open Sans', sans-serif;
+  overflow:hidden;
+}
+.column{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+.row{
+  width:100%;
+  display:flex;
+  flex-direction:row;
+}
+.cell{
+  flex:1;
+}
+
+/*Page Border*/
+body:before, body:after {
+    content: "";
+    position: fixed;
+    background: #000;
+    left: 0;
+    right: 0;
+    height: 2px;
+}
+body:before {
+    top: 0px;
+}
+body:after {
+    bottom: 0;
+}
+body {
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;  
+}
+
+
+/*Header*/
+#header{
+	background:linear-gradient(#444,#555,#555555,#333);
+	height:30px;
+	border-bottom:3px solid black;
+	-webkit-app-region: drag;
+}
+.rotate-45{
+	transform:rotate(45deg);
+}
+#header-title{
+  margin:auto;
+  padding-left:100px;
+  color:#fff;
+  font-size:1.35em;
+  text-align:center;
+  vertical-align:middle;
+  text-shadow: 1px 1px 5px #111,
+               1px -1px 5px #111,
+              -1px 1px 5px #111,
+              -1px -1px 5px #111;
+}
+.orange{
+  color:#ff6600;
+  text-shadow: 1px 1px 5px #333,
+             1px -1px 5px #333,
+            -1px 1px 5px #333,
+            -1px -1px 5px #333;
+}
+#header-buttons{
+	width:100px;
+	height:100%;
+    transform:scale(.9);
+	-webkit-app-region: no-drag;
+}
+#header-buttons button{
+	float:right;
+}
+
+
+/* Left panel snippet controls */
+#menu-container{
+  background-color:#444;
+  color:#fff;
+  min-width:180px;
+  max-width:18%;
+  height:100%;
+  padding:5px 0px 5px 0px;
+}
+#menu-container button{
+  background: radial-gradient(#fff,#dcdcdc,#aaaaaa);
+  margin:4px;
+  border:2px solid #292929;
+  border-radius:4px;
+  outline:none;
+}
+#menu-container button:active{
+  transform:scale(.95) !important;
+}
+#menu-container button:hover{
+  background-color:#fff;
+  color:#f60;
+  transform:scale(1.05);
+}
+
+/* Settings */
+#settings-menu{
+  overflow:auto;
+  height:100%;
+}
+
+
+/* Left panel Snippet name list */
+#snippet-list{
+  overflow-y:auto;
+  margin-top:5px;
+	margin-bottom:32px;
+  border-top:5px solid #262626;
+}
+#filter{
+  outline:none;
+  width:88%;
+  margin:5px;
+  height:20px;
+  padding:5px 5px 5px 5px;
+  border-radius:10px;
+  border:1px solid black;
+}
+.snippet{
+  cursor:pointer;
+  padding:5px;
+  border:1px solid #363636;
+  max-height:25px;
+  flex:1;
+}
+.snippet:hover{
+  background:#555;
+}
+.selected{
+  background-color:#333;
+  border:1px solid #fff;
+  color:#fff;
+}
+.selected:hover{
+  background-color:#333;
+}
+
+
+/*Menu collapse toggle buttons*/
+.toggle{
+  width:20px;
+  background: linear-gradient(to right, #212121,#555,#212121);
+  font-size:10px;
+  color:#999;
+  outline:none;
+}
+.toggle:hover{
+  background: linear-gradient(to right,#222,#666,#222);
+  color:#fff;
+  transform:scale(1.05);
+}
+.toggle i{
+  margin:auto;
+}
+
+/*Right panel Notepad*/
+#toggle-notepad{
+  margin:auto;
+}
+
+#notepad{
+  width:33%;
+  margin-right:-33%;
+}
+#notepad textarea{
+  outline:none;
+  font-size:1.5em;
+}
+
+
+/* Code Editor */
+/*Compensate for height of main header & editor header*/
+#snippet-editor{
+  /* Lots of pixel tweaking going on. Not good */
+  margin-bottom: 35px;
+}
+#snippet-header{
+  font-size:1.5em;
+  font-weight:bold;
+  text-align:center;
+  max-height:25px;
+  background: linear-gradient(#e5e5e5, #ccc);
+  color:#000;
+  outline:none;
+}
+#snippet-header:hover{
+  background: linear-gradient(#f5f5f5, #ddd);
+}
+#snippet-header::selection{
+  background-color:#f60;
+  color:#fff;
+}
+
