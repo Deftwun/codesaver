@@ -225,7 +225,10 @@ body {
       font-size:.8em;
       min-width:138px;
     }
-  
+    #notepad{
+      width:75%;
+    }
+      
     .toggle {
       max-width:15px;
     }
@@ -237,16 +240,13 @@ body {
       /* Lots of pixel tweaking going on. Not good */
       margin-bottom: 25px;
     }
-  
     #snippet-header{
       font-size:1em;
       max-height:15px;
     }
-  
-    #header-title {
+      #header-title {
       font-size:1em;
     }
-  
     #header{
       height:20px;  
     }
