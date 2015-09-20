@@ -54,6 +54,8 @@ body {
 .rotate-45{
 	transform:rotate(45deg);
 }
+
+
 #header-title{
   margin:auto;
   padding-left:100px;
@@ -66,6 +68,7 @@ body {
               -1px 1px 5px #111,
               -1px -1px 5px #111;
 }
+
 .orange{
   color:#ff6600;
   text-shadow: 1px 1px 5px #333,
@@ -82,6 +85,7 @@ body {
 #header-buttons button{
 	float:right;
 }
+
 
 
 /* Left panel snippet controls */
@@ -169,6 +173,11 @@ body {
   margin:auto;
 }
 
+@media only screen and (max-width: 500px) {
+
+  
+}
+
 /*Right panel Notepad*/
 #toggle-notepad{
   margin:auto;
@@ -180,7 +189,7 @@ body {
 }
 #notepad textarea{
   outline:none;
-  font-size:1.5em;
+  font-size:14px;
 }
 
 
@@ -206,4 +215,41 @@ body {
   background-color:#f60;
   color:#fff;
 }
+
+
+@media only screen and (max-width: 350px){
+    #header-title{
+      padding-left:0px;
+    }
+    #menu-container{
+      font-size:.8em;
+      min-width:138px;
+    }
+  
+    .toggle {
+      max-width:15px;
+    }
+}
+
+@media only screen and (max-height: 400px) {
+    /*Compensate for height of main header & editor header*/
+    #snippet-editor{
+      /* Lots of pixel tweaking going on. Not good */
+      margin-bottom: 25px;
+    }
+  
+    #snippet-header{
+      font-size:1em;
+      max-height:15px;
+    }
+  
+    #header-title {
+      font-size:1em;
+    }
+  
+    #header{
+      height:20px;  
+    }
+}
+
 

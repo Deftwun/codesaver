@@ -3,7 +3,7 @@
   "description": "Save your code snippets across devices using Google cloud storage!",
   "version": "0.1",
   "manifest_version": 2,
-  "offline-enabled":true,
+  "offline_enabled":true,
   "permissions":[
 		"storage",
 		"alwaysOnTopWindows"
