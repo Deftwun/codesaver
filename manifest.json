@@ -6,7 +6,8 @@
   "offline_enabled":true,
   "permissions":[
 		"storage",
-		"alwaysOnTopWindows"
+		"alwaysOnTopWindows",
+    "syncFileSystem"
   ],
   "app": {
     "background": {
