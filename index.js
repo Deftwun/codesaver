@@ -14,7 +14,6 @@ function createNewSnippet(name,content){
   name = name || 'untitled';
   var suffix = 1,
       unique = name;
-	  console.log(name);
   while(Object.keys(snippets).indexOf(unique) > -1){
     unique = name + "_" + suffix++;
   }  
@@ -26,13 +25,13 @@ function createNewSnippet(name,content){
 
 //Updates the snippet name to whatever is in the snippet header
 function updateSnippetName(){
-    var newName = $("#snippet-header").val();
-    if (newName.trim() != "" && selectedSnippet != newName && selectedSnippet != undefined){
-      var content = snippets[selectedSnippet];
-      delete snippets[selectedSnippet];
-      createNewSnippet(newName,content);
-      $(".snippets").addClass("selected");
-    }
+  var newName = $("#snippet-header").val();
+  if (newName.trim() != "" && selectedSnippet != newName && selectedSnippet != undefined){
+    var content = snippets[selectedSnippet];
+    delete snippets[selectedSnippet];
+    createNewSnippet(newName,content);
+    $(".snippets").addClass("selected");
+  }
 }
 
 //Delete the currently seelected snippet
@@ -67,7 +66,7 @@ function toggleMenu(){
   $("#menu-container").animate({'margin-left':newMargin});
   var button = $("#toggle-menu i")
   if (menuCollapsed) {button.removeClass("fa-arrow-circle-left");
-                            button.addClass("fa-arrow-circle-right");}
+                      button.addClass("fa-arrow-circle-right");}
   else {button.removeClass("fa-arrow-circle-right");
              button.addClass("fa-arrow-circle-left");}
 }
@@ -82,10 +81,15 @@ function toggleNotepad(){
       newMargin= margin < 0 ? 0 : (-width-borderWidth);
   $("#notepad").animate({'margin-right':newMargin});
   var button = $("#toggle-notepad i");
-  if (notepadCollapsed) {button.removeClass("fa-arrow-circle-right");
-                            button.addClass("fa-arrow-circle-left");}
-  else {button.removeClass("fa-arrow-circle-left");
-             button.addClass("fa-arrow-circle-right");}
+  
+  if (notepadCollapsed) {
+    button.removeClass("fa-arrow-circle-right");
+    button.addClass("fa-arrow-circle-left");
+  }
+  else {
+    button.removeClass("fa-arrow-circle-left");
+    button.addClass("fa-arrow-circle-right");
+  }
 }
 
 //Show the 'Settings' menu
@@ -114,12 +118,12 @@ function filterList(){
   var filterText = $("#filter").val().toLowerCase();
   var name,content;
   $(".snippet").each(function(){
-      name = $(this).text();
-      content = snippets[name];
-      var match = name.toLowerCase().indexOf(filterText) > -1 || 
-                  content.toLowerCase().indexOf(filterText) > -1;
-      if (match) $(this).show();
-      else $(this).hide();
+    name = $(this).text();
+    content = snippets[name];
+    var match = name.toLowerCase().indexOf(filterText) > -1 || 
+                content.toLowerCase().indexOf(filterText) > -1;
+    if (match) $(this).show();
+    else $(this).hide();
   });
 }
 
@@ -137,6 +141,7 @@ function refreshSnippetsList(){
   displayCurrentSnippet();
 }
 
+//Toggle whether app is pinned (always on top)
 function togglePinned(){
 	pinned = !pinned;
 	if (pinned){
@@ -156,17 +161,17 @@ function loadSnippets(){
     //Use Chrome cloud storage (Web Store App)
     if (chrome && chrome.storage){
       chrome.storage.sync.get(function(item){
-          console.log("LOAD",item);
-          snippets = item.snippets || {};
-          $("#notepad textarea").val(item.notes || "This is a notepad!");
-          if (item.settings){
-              $("#theme").val(item.settings.theme);
-              $("#show_gutter").attr('checked',item.settings.showGutter);
-              $("#display_print_margin").attr('checked',item.settings.showPrintMargin);
-              $("#fontsize").val(item.settings.fontSize);
-          }
-          applySettings();
-          refreshSnippetsList();
+        console.log("LOAD",item);
+        snippets = item.snippets || {};
+        $("#notepad textarea").val(item.notes || "This is a notepad!");
+        if (item.settings){
+          $("#theme").val(item.settings.theme);
+          $("#show_gutter").attr('checked',item.settings.showGutter);
+          $("#display_print_margin").attr('checked',item.settings.showPrintMargin);
+          $("#fontsize").val(item.settings.fontSize);
+        }
+        applySettings();
+        refreshSnippetsList();
       });
     }
   
@@ -182,10 +187,10 @@ function loadSnippets(){
 //Save snippets to storage
 function saveSnippets(){
 	var settingsObject = {'theme':$("#theme").val(),
-                          'mode':$("#mode").val(),
-                          'showGutter':$("#show_gutter").is(":checked"),
-                          'showPrintMargin':$("#display_print_margin").is(":checked"),
-                          'fontSize':$("#fontsize").val()};
+                        'mode':$("#mode").val(),
+                        'showGutter':$("#show_gutter").is(":checked"),
+                        'showPrintMargin':$("#display_print_margin").is(":checked"),
+                        'fontSize':$("#fontsize").val()};
 	var storageObject = {'snippets':snippets,
 	                     'notes':$("#notepad textarea").val(),
 											 'settings':settingsObject};
