@@ -155,23 +155,46 @@ function togglePinned(){
 	chrome.app.window.current().setAlwaysOnTop(pinned);
 }
 
+
+//http://www.html5rocks.com/en/tutorials/file/filesystem/
+
+//Error callback used for google sync errors
+function syncErrorCallback(e){
+  console.log(e.name + " : " + e.message);
+}
+
 //Load snippets from storage
 function loadSnippets(){
     
     //Use Chrome cloud storage (Web Store App)
-    if (chrome && chrome.storage){
-      chrome.storage.sync.get(function(item){
-        console.log("LOAD",item);
-        snippets = item.snippets || {};
-        $("#notepad textarea").val(item.notes || "This is a notepad!");
-        if (item.settings){
-          $("#theme").val(item.settings.theme);
-          $("#show_gutter").attr('checked',item.settings.showGutter);
-          $("#display_print_margin").attr('checked',item.settings.showPrintMargin);
-          $("#fontsize").val(item.settings.fontSize);
-        }
-        applySettings();
-        refreshSnippetsList();
+    if (chrome && chrome.syncFileSystem){
+      console.log("Load from google chrome filesystem");
+       //Retrieve sync file system
+      chrome.syncFileSystem.requestFileSystem(function(fs){
+        //Get file
+        fs.root.getFile('codesaver.json', {}, function(fileEntry) {
+          //File Reader
+          fileEntry.file(function(file) {
+             var reader = new FileReader();
+             reader.onloadend = function(e) {
+                //recreate save object
+                console.log("Loading from chrome.syncFileSystem: ",this.result);
+                var storageObject = JSON.parse(this.result);
+                snippets = storageObject.snippets || {};
+                $("#notepad textarea").val(storageObject.notes || "This is a notepad!");
+                if (storageObject.settings){
+                  $("#theme").val(storageObject.settings.theme);
+                  $("#show_gutter").attr('checked',storageObject.settings.showGutter);
+                  $("#display_print_margin").attr('checked',storageObject.settings.showPrintMargin);
+                  $("#fontsize").val(storageObject.settings.fontSize);
+                }
+                applySettings();
+                refreshSnippetsList();
+             };
+             reader.readAsText(file);
+          }, syncErrorCallback);
+
+        }, syncErrorCallback);
       });
     }
   
@@ -179,8 +202,7 @@ function loadSnippets(){
     //(localStorage is auto-periodically cleared in some environments/devices)
     //                      ^Should be a word right?
     else {
-      //localStorage.setItem('codesaver-snippets'
-      console.log("Could not load. Chrome storage not found. localStorage not yet supported.");
+      console.log("Could not load. Chrome Sync filesystem not found. localStorage not yet supported.");
     }	
 }
 
@@ -196,9 +218,27 @@ function saveSnippets(){
 											 'settings':settingsObject};
   
   
-  if (chrome && chrome.storage){
-    console.log("SAVE",storageObject);
-    chrome.storage.sync.set(storageObject);
+  if (chrome && chrome.syncFileSystem){
+    console.log("Saving to chrome.syncFileSystem: ",JSON.stringify(storageObject));
+    //Retrieve sync file system
+    chrome.syncFileSystem.requestFileSystem(function(fs){
+      //Create File
+      fs.root.getFile('codesaver.json', {create: true}, function(fileEntry) {        
+        //Create File writer & save storage object
+        fileEntry.createWriter(function(fileWriter) {
+          var truncated = false;
+          fileWriter.onwriteend = function(e) {
+            if (truncated == false){console.log("truncating file"); this.truncate(this.position);};
+            truncated = true;
+            console.log('WriteCompleted');
+          };
+          fileWriter.onerror = function(e) {console.log('Write failed: ' + e.toString());};
+          var blob = new Blob([JSON.stringify(storageObject)], {type: 'application/json'});
+          fileWriter.write(blob); 
+          
+        }, syncErrorCallback); 
+      }, syncErrorCallback);
+    });
   }
   else {
     console.log("Could not save. Chrome storage not found. localStorage not yet supported.");
