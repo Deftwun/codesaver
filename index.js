@@ -207,7 +207,7 @@ function loadSnippets(){
 }
 
 //Save snippets to storage
-function saveSnippets(){
+function saveSnippets(callback){
 	var settingsObject = {'theme':$("#theme").val(),
                         'mode':$("#mode").val(),
                         'showGutter':$("#show_gutter").is(":checked"),
@@ -228,9 +228,15 @@ function saveSnippets(){
         fileEntry.createWriter(function(fileWriter) {
           var truncated = false;
           fileWriter.onwriteend = function(e) {
-            if (truncated == false){console.log("truncating file"); this.truncate(this.position);};
-            truncated = true;
-            console.log('WriteCompleted');
+            if (truncated == false){
+              console.log("truncating file"); 
+              this.truncate(this.position);
+              truncated = true;
+            }
+            else{
+              console.log('WriteCompleted');
+              callback();
+            }
           };
           fileWriter.onerror = function(e) {console.log('Write failed: ' + e.toString());};
           var blob = new Blob([JSON.stringify(storageObject)], {type: 'application/json'});
@@ -277,7 +283,7 @@ $(document).ready(function(){
   $("#snippet-header").blur(updateSnippetName);
   $("#snippet-header").mouseup(function(){return false;});	
   $("#pin").click(function(){console.log("clicked");togglePinned();});
-  $("#close").click(function(){saveSnippets(); window.close()});
+  $("#close").click(function(){saveSnippets(window.close);});
   $("#minimize").click(function(){chrome.app.window.current().minimize()});
 	
 	//Snippet name click event
