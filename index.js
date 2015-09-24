@@ -235,7 +235,7 @@ function saveSnippets(callback){
             }
             else{
               console.log('WriteCompleted');
-              callback();
+              if (callback) callback();
             }
           };
           fileWriter.onerror = function(e) {console.log('Write failed: ' + e.toString());};
